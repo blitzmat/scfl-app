@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  --primary-transition: 0.4s cubic-bezier(.25,.8,.25,1);
+}
+
+h1 { font-size: 3.5rem; }
+h2 { font-size: 3rem;} 
+h3 { font-size: 2.5rem; }
+h4 { font-size: 2rem; }
+h5 { font-size: 1.5rem; }
+h6 { font-size: 1.125rem; } 
+
+/* reset user agent stylesheet */
+input {
+  background-color: transparent;
+}
+
+/* .nuxt-link-active, */
+.nuxt-link-exact-active {
+  border-bottom: 1px solid white;
+}
+
+/* Transitions */
+.slide-y-transition-enter-active,
+.slide-y-transition-leave-active {
+    transition: var(--primary-transition);
+}
+
+.slide-y-transition-enter,
+.slide-y-transition-leave-to {
+  opacity: 0;
+  transform: translateY(-15px);
+}
+
+
+.slide-y-reverse-transition-enter-active,
+.slide-y-reverse-transition-leave-active {
+  transition: var(--primary-transition);
+}
+
+.slide-y-reverse-transition-leave-to {
+  opacity: 0;
+  transform: translateY(15px);
+}
