@@ -22,9 +22,11 @@ export default {
     },
 
     async update(context, user) {
-        const updatedUser = await this.$axios.post('/user/update', user)
-        context.commit('set', updatedUser)
-        return updatedUser
+        return await this.$axios.post('/user/update', user)
+    },
+
+    async delete(context, id) {
+        return await this.$axios.post('/user/delete', id)
     },
 
     // async update(context, user) {

@@ -35,7 +35,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/toaster.js'
+    '~/plugins/toaster.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -69,7 +69,7 @@ export default {
           login: { url: '/auth/login', method: 'post' },
           logout: { url: '/auth/logout', method: 'post' },
           signup: { url: '/auth/signup', method: 'post' },
-          user: { url: '/auth/me', method: 'get' }
+          user: { url: '/auth/me', method: 'post' }
         }
       }
     },

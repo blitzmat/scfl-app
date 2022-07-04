@@ -98,17 +98,31 @@ export default {
         const token = params.token
         return { token }
     },
-    mounted() {
-        if (this.token) {
-            this.$axios.post('/auth/verify', {token: this.token})
-                .then((response) => {
-                    this.$auth.setUser(response.data.user)
-                    this.$router.push('/profile')
+    async fetch() {
+        try {
+            if (this.token) {
+                const response = await this.$axios.post('/auth/verify', {token: this.token})
+                this.$auth.setUser(response.data.data.user)
+                this.$toast.show({
+                    message: response.data.data.msg, 
+                    success: true,
+                    timer: 5000
                 })
-                .catch(error => {
-                    this.state.expired = error.response.data.message
-                })
+                this.$router.push('/profile')
+            }
         }
+        catch (e) {
+            this.state.expired = e.response.data.errors
+        }
+    },
+    mounted() {
+        // if (this.token) {
+        //     const response = await this.$axios.post('/auth/verify', {token: this.token})
+        //     console.log(response)
+        //     if (!response) this.state.expired = error.response.data.message
+        //     this.$auth.setUser(response.data.user)
+        //     this.$router.push('/profile')
+        // }
     },
     methods: {
         sendVerification() {

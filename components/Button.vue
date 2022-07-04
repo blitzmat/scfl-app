@@ -31,6 +31,7 @@ export default {
     props: {
         label: String,
         primary: false,
+        warning: false,
         disabled: false,
         loading: false,
         link: false,
@@ -40,12 +41,13 @@ export default {
     computed: {
         classes() {
             return {
-                'border-gray-600 text-black bg-transparent hover:bg-gray-200': !this.primary,
+                'border-gray-300 text-black bg-transparent hover:bg-gray-200': !this.primary,
                 'border-transparent text-white bg-sky-600 hover:bg-sky-700': this.primary,
                 'opacity-50 hover:bg-transparent': this.disabled && !this.primary,
                 'opacity-50 hover:bg-sky-600': this.disabled && this.primary,
-                'py-2 px-4 border text-white' : !this.flat,
+                'py-2 px-4 border' : !this.flat,
                 'underline hover:no-underline bg-transparent hover:bg-transparent border-0 p-0 ' : this.flat,
+                'border-transparent text-white bg-red-600 hover:bg-red-700': this.warning,
             }
         }
     },

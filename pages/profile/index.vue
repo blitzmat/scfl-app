@@ -1,116 +1,142 @@
 <template>
-    <div class="container mx-auto">
-        <div class="flex flex-row justify-between">
-            <div>
-                <p class="text-sm text-gray-400">{{user.firstname}} {{user.lastname}}</p>
-                <h1 class="break-all leading-none mb-3">{{user.username}}</h1>
-                <p class="text-sm text-gray-400" :class="!user.isVerified ? 'text-red-600' : ''">
-                    {{user.email}}
-                    <template v-if="!user.isVerified"> - 
+    <div>
+        <Modal
+            :show="state.delete"
+            @close="closeDelete"
+            @click="deleteUser(user._id)"
+            :loading="state.deleting"
+            :disabled="state.deleting"
+            title="Delete account"
+            message="Are you sure you want to DELETE your account? All of your data will be permanently removed. This action cannot be undone."
+        />
+        <div class="container mx-auto">
+            <div class="flex flex-row justify-between">
+                <div>
+                    <p class="text-sm text-gray-400">{{user.firstname}} {{user.lastname}}</p>
+                    <h1 class="break-all leading-none mb-3">{{user.username}}</h1>
+                    <p class="text-sm text-gray-400" :class="!user.isVerified ? 'text-red-600' : ''">
+                        {{user.email}}
+                        <template v-if="!user.isVerified"> - 
+                            <Button
+                                @click="verifyEmail" 
+                                :disabled="state.verifying"
+                                :loading="state.verifying"
+                                label="Verify email"
+                                flat="true"
+                            />
+                        </template>
+                    </p>
+                </div>
+                <div v-if="!state.isEditing">
+                    <Button
+                        @click="state.isEditing = true"
+                        label="Edit Profile"
+                        :loading="state.updating"
+                        primary="true"
+                        class="flex"
+                        >
+                        <svg slot="icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                        </svg>
+                    </Button>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+            <template v-if="state.isEditing">
+                <Form :form="form">
+                    <template v-slot:inputs>
+                        <FormulateInput
+                            v-model="form.username"
+                            id="username"
+                            name="username"
+                            type="text"
+                            autocomplete="username"
+                            :placeholder="user.username"
+                            label="Username"
+                            class="my-2"
+                        />
+                        <FormulateInput 
+                            v-model="form.firstname"
+                            id="firstname"
+                            name="firstname"
+                            type="text"
+                            autocomplete="firstname"
+                            :placeholder="user.firstname"
+                            label="Firstname"
+                            class="my-2"          
+                        />
+                        <FormulateInput 
+                            v-model="form.lastname"
+                            id="lastname"
+                            name="lastname"
+                            type="text"
+                            autocomplete="lastname"
+                            :placeholder="user.lastname"
+                            label="Lastname"
+                            class="my-2"          
+                        />
+                        <FormulateInput 
+                            v-model="form.email"
+                            id="email"
+                            name="email"
+                            type="email"
+                            autocomplete="email"
+                            :placeholder="user.email"
+                            label="Email Address"
+                            class="my-2"          
+                        />
                         <Button
-                            @click="verifyEmail" 
-                            :disabled="state.verifying"
-                            :loading="state.verifying"
-                            label="Verify email"
+                            @click="resetPassword"
+                            label="Request a password reset"
+                            class="my-4"
                             flat="true"
+                            :loading="state.resetPasswordSent"
                         />
                     </template>
-                </p>
-            </div>
-            <div v-if="!state.isEditing">
-                <Button
-                    @click="state.isEditing = true"
-                    label="Edit Profile"
-                    :loading="state.updating"
-                    primary="true"
-                    class="flex"
-                    >
-                    <svg slot="icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                    </svg>
-                </Button>
-            </div>
+                    <template v-slot:errors>
+                        <p v-for="(error, index) in state.errors" :key="index" class="text-sm text-red-500 ml-2">{{error.msg}}</p>
+                    </template>
+                    <template v-slot:footer>
+                        <div class="flex flex-row gap-2">
+                            <Button
+                                type="submit"
+                                :class="classes"
+                                class="basis-1/2 w-full"
+                                :disabled="state.disabled"
+                                :loading="state.updating"
+                                label="Update"
+                                primary="true"
+                            />
+                            <Button
+                                type="button"
+                                @click="state.isEditing = false"
+                                class="basis-1/2"
+                                label="Cancel"
+                            />
+                        </div>
+                        <div class="text-right mt-4 text-sm">
+                            <Button
+                                @click="state.delete = true" 
+                                :disabled="state.deleting"
+                                :loading="state.deleting"
+                                label="Delete account"
+                                flat="true"
+                                class="text-red-500"
+                            />
+                        </div>
+                    </template>
+                </Form>
+            </template>
+            
         </div>
-        
-        <hr class="my-4">
-        <template v-if="state.isEditing">
-            <Form :form="form">
-                <template v-slot:inputs>
-                    <FormulateInput
-                        v-model="form.username"
-                        id="username"
-                        name="username"
-                        type="text"
-                        autocomplete="username"
-                        :placeholder="user.username"
-                        label="Username"
-                        class="my-2"
-                    />
-                    <FormulateInput 
-                        v-model="form.firstname"
-                        id="firstname"
-                        name="firstname"
-                        type="text"
-                        autocomplete="firstname"
-                        :placeholder="user.firstname"
-                        label="Firstname"
-                        class="my-2"          
-                    />
-                    <FormulateInput 
-                        v-model="form.lastname"
-                        id="lastname"
-                        name="lastname"
-                        type="text"
-                        autocomplete="lastname"
-                        :placeholder="user.lastname"
-                        label="Lastname"
-                        class="my-2"          
-                    />
-                    <FormulateInput 
-                        v-model="form.email"
-                        id="email"
-                        name="email"
-                        type="email"
-                        autocomplete="email"
-                        :placeholder="user.email"
-                        label="Email Address"
-                        class="my-2"          
-                    />
-                    <template v-if="!state.resetPasswordRequested">
-                        <label for="">Password</label>
-                        <Button @click="resetPassword" label="Request Reset Password" primary="true" class="my-4" :loading="state.resetPasswordSent" />
-                    </template>
-                </template>
-                <template v-slot:errors>
-                    <p v-for="(error, index) in state.errors" :key="index" class="text-sm text-red-500 ml-2">{{error.msg}}</p>
-                </template>
-                <template v-slot:footer>
-                    <div class="flex flex-row gap-2">
-                        <Button
-                            type="submit"
-                            :class="classes"
-                            class="basis-1/2 w-full"
-                            :disabled="state.disabled"
-                            :loading="state.updating"
-                            label="Update"
-                            primary="true"
-                        />
-                        <Button
-                            type="button"
-                            @click="state.isEditing = false"
-                            class="basis-1/2"
-                            label="Cancel"
-                        />
-                    </div>
-                </template>
-            </Form>
-        </template>
-        
-    </div>   
+    </div>
 </template>
 
 <script>
 import Button from '../../components/Button.vue'
+import Modal from '~/components/Modal'
+
 export default {
     name: 'users',
     auth: true,
@@ -126,6 +152,8 @@ export default {
                 disabled: false,
                 resetPasswordRequested: false,
                 resetPasswordSent: false,
+                deleting: false,
+                delete: false,
             },
             loading: false,
             errors: null,
@@ -219,6 +247,27 @@ export default {
                     this.state.resetPasswordSent = false
                     this.state.resetPasswordRequested = true
                 })
+        },
+        async deleteUser(id) {
+            try {
+                this.state.deleting = true
+                await this.$store.dispatch('user/delete', {id})
+                this.$toast.show({
+                    message: 'Account deleted',
+                    success: true,
+                    timer: 5000
+                })
+                this.state.deleting = false
+                this.$auth.logout()
+                this.$router.push('/')
+            }
+            catch(e) {
+                this.errors = e.response.data.errors
+
+            }
+        },
+        closeDelete() {
+            this.state.delete = false
         }
     }
 }
