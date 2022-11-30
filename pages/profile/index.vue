@@ -2,13 +2,25 @@
     <div>
         <Modal
             :show="state.delete"
-            @close="closeDelete"
-            @click="deleteUser(user._id)"
             :loading="state.deleting"
             :disabled="state.deleting"
             title="Delete account"
             message="Are you sure you want to DELETE your account? All of your data will be permanently removed. This action cannot be undone."
-        />
+        >
+            <template v-slot:footer>
+                <Button
+                    @click="deleteUser(user._id)"
+                    :loading="loading"
+                    label="Delete"
+                    class=""
+                />
+                <Button
+                    @click="closeDelete"
+                    warning="true"
+                    label="Cancel"
+                />
+            </template>
+        </Modal>
         <div class="container mx-auto">
             <div class="flex flex-row justify-between">
                 <div>

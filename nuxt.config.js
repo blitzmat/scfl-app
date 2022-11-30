@@ -45,6 +45,7 @@ export default {
   buildModules: [
     '@nuxt/postcss8',
     '@braid/vue-formulate/nuxt',
+    '@nuxtjs/moment',
   ],
   
   // Modules: https://go.nuxtjs.dev/config-modules

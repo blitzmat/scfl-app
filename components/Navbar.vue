@@ -14,7 +14,7 @@
       </template>
       <template v-else>
         <div class="hidden md:block">
-          <nuxt-link to="/profile" class="text-white mx-3 py-2 text-sm0">My Profile</nuxt-link>
+          <nuxt-link to="/profile" class="text-white mx-3 py-2 text-sm">My Profile</nuxt-link>
           <a href="#" @click="$auth.logout()" class="text-white mx-3 py-2 text-sm">Sign out</a>
         </div>
       </template>

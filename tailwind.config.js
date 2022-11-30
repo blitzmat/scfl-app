@@ -8,6 +8,12 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    listStyleType: {
+      none: 'none',
+      disc: 'disc',
+      decimal: 'decimal',
+      circle: 'circle',
+    }
   },
   darkMode: 'class',
   plugins: [
