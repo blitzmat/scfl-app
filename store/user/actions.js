@@ -28,6 +28,14 @@ export default {
     async delete(context, id) {
         return await this.$axios.post('/user/delete', id)
     },
+    
+    async joinTournament(context, query) {
+        return await this.$axios.post('/user/joinTournament', query)
+    },
+    
+    async cancelTournament(context, query) {
+        return await this.$axios.post('/user/cancelTournament', query)
+    },
 
     // async update(context, user) {
     //     try{

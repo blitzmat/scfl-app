@@ -42,9 +42,9 @@ export default {
         classes() {
             return {
                 'border-gray-300 text-black bg-transparent hover:bg-gray-200': !this.primary,
-                'border-transparent text-white bg-sky-600 hover:bg-sky-700': this.primary,
+                'border-transparent text-slate-200 bg-slate-700 dark:text-slate-800 dark:bg-slate-300 hover:bg-slate-500 hover:text-slate-300 dark:hover:bg-slate-500': this.primary && !this.disabled,
                 'opacity-50 hover:bg-transparent': this.disabled && !this.primary,
-                'opacity-50 hover:bg-sky-600': this.disabled && this.primary,
+                'opacity-50 text-slate-200 bg-slate-700 dark:text-slate-800 dark:bg-slate-300 hover:bg-slate-700 hover:text-slate-200 dark:text-slate-800 dark:bg-slate-300': this.disabled && this.primary,
                 'py-2 px-4 border' : !this.flat,
                 'underline hover:no-underline bg-transparent hover:bg-transparent border-0 p-0 ' : this.flat,
                 'border-transparent text-white bg-red-600 hover:bg-red-700': this.warning,

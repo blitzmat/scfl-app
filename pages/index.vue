@@ -4,24 +4,14 @@
         <hr class="my-3" />
         <Loading v-if="loading" />
         <section v-else>
-            <nav class="tabs flex flex-wrap">
-                <nuxt-link to="/tournaments" class="active">Tournaments</nuxt-link>
-                <nuxt-link to="/series">Series</nuxt-link>
+            <nav class="tabs flex flex-wrap" ref="tabs">
+                <span data-name="tournaments" class="p-5 cursor-pointer dark:bg-slate-700 hover:bg-slate-200" :class="(tabList && tabList.tournaments.isActive ? 'bg-slate-200 dark:bg-slate-500' : 'bg-slate-300')" @click="toggleActive('tournaments')">Tournaments</span>
+                <span data-name="series" class="p-5 cursor-pointer dark:bg-slate-700 hover:bg-slate-200" :class="(tabList && tabList.series.isActive ? 'bg-slate-200 dark:bg-slate-500' : 'bg-slate-300')" @click="toggleActive('series')">Series</span>
             </nav>
-            <div class="flex flex-wrap">
+            <div class="flex flex-wrap dark:bg-slate-500 bg-slate-200">
                 <div class="w-1/2">
-                    <h3>Series -  {{series.length}}</h3>
-                    <hr class="my-3" />
-                    <div class="flex flex-wrap">
-                        <div v-for="serie in series" :key="serie.id" class="w-full p-2 mb-5 bg-slate-200">
-                            <p><nuxt-link :to="`/series/${serie.slug}`">{{serie.league.name}} - {{serie.full_name}}</nuxt-link></p>
-                            <ul class="pl-10 list-disc">
-                                <li>Begins: {{ $moment(serie.begin_at).format('DD MMM YYYY') }}</li>
-                                <li>Ends: {{ $moment(serie.end_at).format('DD MMM YYYY')}}</li>
-                                <li>Tier: {{serie.tier}}</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <Tournament v-if="tabList && tabList.tournaments.isActive"></Tournament>
+                    <Series v-if="tabList && tabList.series.isActive"></Series>
                 </div>
             </div>
         </section>
@@ -30,22 +20,37 @@
 
 <script>
 import Loading from '../components/Loading.vue'
+import Tournament from '../components/Tournament.vue'
+import Series from '../components/Series.vue'
+
 export default {
     name: 'Home',
     auth: false,
     components: [
-        Loading
+        Loading,
+        Tournament,
+        Series
     ],
     data() {
         return {
-            loading: true,
-            series: [],
+            loading: false,
+            isActive: false,
+            tabList: {
+                tournaments: { isActive: false },
+                series: { isActive: true }
+            }
         }
     },
-    async fetch() {
-        this.series = await this.$store.dispatch('serie/fetch')
-        console.log(this.series)
-        this.loading = false
+
+    methods: {
+        toggleActive(name) {
+            const tabsKeys = Object.keys(this.tabList)
+            for (let i = 0; i < tabsKeys.length; i++) {
+                this.tabList[tabsKeys[i]].isActive = false
+            }
+            this.tabList[name].isActive = true
+        }
     },
+
 }
 </script>

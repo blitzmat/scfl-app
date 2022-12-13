@@ -139,15 +139,24 @@
                         </div>
                     </template>
                 </Form>
+                <hr class="my-4"></hr>
             </template>
-            
+            <h3>Active tournaments</h3>
+            <div v-for="tournament in tournaments" :key="tournament.id" class="p-2 mb-5 bg-slate-200">
+                <nuxt-link :to="`/tournament/${tournament.slug}`">{{tournament.league.name}} - {{tournament.name}}</nuxt-link>
+                <p><b>Your Team</b></p>
+                <ul>
+                    <li v-for="player in tournament.pickedPlayers" :key="player.id">
+                        {{player.name}}
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import Button from '../../components/Button.vue'
-import Modal from '~/components/Modal'
 
 export default {
     name: 'users',
@@ -173,7 +182,8 @@ export default {
             disabled: true,
             form: {
                 finish: false,
-            }
+            },
+            tournaments: []
         }
     },
     computed: {
@@ -188,6 +198,29 @@ export default {
                 'opacity-50': this.state.disabled
             }
         },
+        // tournaments() {
+        //     let tournament = []
+        //     let allTournaments = async () => await this.$store.dispatch('tournament/fetch')
+        //     console.log('shit: ', allTournaments)
+        //     // this.user.tournaments.forEach(tournament => {
+        //     //     allTournaments.forEach(t => {
+        //     //         if (tournament.tournament_id == t.id) tournaments.push(t)
+        //     //     })
+        //     // });
+        //     return tournament
+        // }
+    },
+    async fetch() {
+        let allTournaments = await this.$store.dispatch('tournament/fetch')
+        this.user.tournaments.forEach(tournament => {
+            allTournaments.forEach(t => {
+                if (tournament.tournament_id == t.id) {
+                    t.pickedPlayers = tournament.players
+                    this.tournaments.push(t)
+                }
+            })
+        });
+        console.log(this.tournaments)
     },
     watch: {
         finish (newVal) {
@@ -235,7 +268,7 @@ export default {
         verifyEmail() {
             this.state.verifying = true
             this.$store.dispatch('user/verifyEmail', {email: this.user.email})
-                .then(response => {
+                .then(() => {
                     this.$toast.show({
                         message: `Verification email has been sent to ${this.user.email}. Please also check your spam folder`, 
                         success: true,
@@ -250,7 +283,7 @@ export default {
         resetPassword() {
             this.state.resetPasswordSent = true
             this.$store.dispatch('user/requestResetPassword', { email: this.user.email })
-                .then(response => {
+                .then(() => {
                     this.$toast.show({
                         message: `Request to reset your password has been emailed to ${this.user.email}. Please also check your spam folder`, 
                         success: true,

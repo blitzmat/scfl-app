@@ -1,13 +1,13 @@
 export default {
     set(state, tournaments) {
-        state.tournaments = tournaments
+        state.all = tournaments
     },
 
     update(state, tournaments) {
-        state.tournaments = tournaments
+        state.all = tournaments
     },
 
     delete(state) {
-        state.tournaments = null
+        state.all = null
     }
 }

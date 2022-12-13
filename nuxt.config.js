@@ -8,10 +8,10 @@ export default {
     title: 'app',
     htmlAttrs: {
       lang: 'en',
-      class: 'h-full'
+      class: 'h-full dark'
     },
     bodyAttrs: {
-      class: 'h-full bg-gray-50'
+      class: 'h-full bg-gray-50 dark:bg-black dark:text-slate-200'
     },
     meta: [
       { charset: 'utf-8' },

@@ -6,7 +6,7 @@ export default {
     },
     async fetchOne(context, query) {
         const response = await this.$axios.post('/serie/fetchOne', query)
-        context.commit('set', response.data.data.serie)
-        return response.data.data.serie
+        context.commit('set', response.data.data.series)
+        return response.data.data.series
     }
 }
