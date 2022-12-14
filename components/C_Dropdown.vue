@@ -33,7 +33,7 @@
 
 <script>
 export default {
-    name: 'Dropdown',
+    name: 'C_Dropdown',
     props: {
         label: String,
         isIcon: Boolean

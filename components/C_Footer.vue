@@ -20,7 +20,7 @@
 
 <script>
 export default {
-    name: 'Footer',
+    name: 'C_Footer',
     computed: {
         year() {
             return new Date().getFullYear()

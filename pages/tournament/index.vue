@@ -2,7 +2,7 @@
     <div>
         <h1>Tournaments</h1>
         <hr class="my-3" />
-        <Loading v-if="loading" />
+        <C_Loading v-if="loading" />
         <div v-else class="flex flex-wrap">
             <div class="w-1/2">
                 <div class="flex flex-wrap">
@@ -21,13 +21,14 @@
 </template>
 
 <script>
-import Loading from '../../components/Loading.vue'
+import C_Loading from '../../components/C_Loading.vue'
+
 export default {
     name: 'Tournaments',
     auth: false,
-    components: [
-        Loading
-    ],
+    components: {
+        C_Loading
+    },
     data() {
         return {
             loading: true,

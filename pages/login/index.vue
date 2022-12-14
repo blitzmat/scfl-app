@@ -7,7 +7,7 @@
                         <img class="mx-auto w-auto" src="~/assets/images/scl-logo.png" alt="Starcheese League" />
                         <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-900">Log in to your account</h2>
                     </div>
-                    <Form :form="form">
+                    <C_Form :form="form">
                         <template slot="inputs">
                             <FormulateInput 
                                 v-model="form.email"
@@ -34,7 +34,7 @@
                             <p v-for="(error, index) in errors" :key="index" class="text-sm text-red-500 ml-2">{{error.msg}}</p>
                         </template>
                         <template slot="footer">
-                            <Button
+                            <C_Button
                                 type="submit"
                                 class="w-full mt-4"
                                 :disabled="loading"
@@ -47,12 +47,12 @@
                                         <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
                                     </svg>
                                 </span>
-                            </Button>
+                            </C_Button>
                             <div class="text-right my-2">
                                 <nuxt-link to="/forgot-password" class="underline hover:no-underline">Forgot Password?</nuxt-link>
                             </div>
                         </template>
-                    </Form>
+                    </C_Form>
                 </div>
             </div>
         </div>
@@ -60,13 +60,15 @@
 </template>
 
 <script>
-import Button from '../../components/Button.vue'
+import C_Button from '../../components/C_Button.vue'
+import C_Form from '../../components/C_Form.vue'
 
 export default {
-    name: 'login',
-    components: [
-        Button
-    ],
+    name: 'Login',
+    components: {
+        C_Button,
+        C_Form
+    },
     data: () => ({
         form: {
             finish: false

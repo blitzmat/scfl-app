@@ -7,7 +7,7 @@
                     <img class="mx-auto w-auto" src="~/assets/images/scl-logo.png" alt="Starcheese League" />
                     <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-900">Register a new account</h2>
                     </div>
-                    <Form :form="form">
+                    <C_Form :form="form">
                         <template slot="inputs">
                             <FormulateInput
                                 v-model="form.username"
@@ -73,7 +73,7 @@
                             <p v-for="(error, index) in errors" :key="index" class="text-sm text-red-500 ml-2">{{error.msg}}</p>
                         </template>
                         <template slot="footer">
-                            <Button
+                            <C_Button
                                 type="submit"
                                 class="w-full mt-4"
                                 :disabled="loading"
@@ -86,18 +86,25 @@
                                     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
                                     </svg>
                                 </span>
-                            </Button>
+                            </C_Button>
                         </template>
-                    </Form>
+                    </C_Form>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+import C_Button from '../../components/C_Button.vue'
+import C_Form from '../../components/C_Form.vue'
 
 export default {
+    name: 'Register',
     auth: false,
+    components: {
+        C_Button,
+        C_Form
+    },
     data: () => ({
         form: {
             finish: false

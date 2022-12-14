@@ -38,7 +38,7 @@
 
 <script>
 export default {
-    name: 'Modal',
+    name: 'C_Modal',
 
     props: {
         message: String,

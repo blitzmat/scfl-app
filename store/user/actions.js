@@ -29,12 +29,14 @@ export default {
         return await this.$axios.post('/user/delete', id)
     },
     
-    async joinTournament(context, query) {
-        return await this.$axios.post('/user/joinTournament', query)
+    async joinSeries(context, query) {
+        let response = await this.$axios.post('/user/joinSeries', query)
+        this.$auth.setUser(response.data.data)
+        return response.data.data
     },
     
-    async cancelTournament(context, query) {
-        return await this.$axios.post('/user/cancelTournament', query)
+    async cancelSeries(context, query) {
+        return await this.$axios.post('/user/cancelSeries', query)
     },
 
     // async update(context, user) {

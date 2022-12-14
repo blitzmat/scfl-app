@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-wrap p-3">
-        <Loading v-if="loading" />
+        <C_Loading v-if="loading" />
         <div v-else v-for="serie in series" :key="serie.id" class="w-full p-2 mb-5 bg-slate-300 dark:bg-slate-700">
             <p><nuxt-link :to="`/series/${serie.slug}`">{{serie.league.name}} - {{serie.full_name}}</nuxt-link></p>
             <ul class="pl-10 list-disc">
@@ -12,13 +12,13 @@
 </template>
 
 <script>
-import Loading from './Loading.vue'
+import C_Loading from './C_Loading.vue'
 export default {
-    name: 'Series',
+    name: 'C_Series',
     auth: false,
-    components: [
-        Loading
-    ],
+    components: {
+        C_Loading
+    },
     data() {
         return {
             loading: true,
@@ -28,7 +28,6 @@ export default {
     async fetch() {
         this.series = await this.$store.dispatch('serie/fetch')
         this.loading = false
-        console.log(this)
     },
 }
 </script>

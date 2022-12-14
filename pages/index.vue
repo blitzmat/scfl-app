@@ -2,7 +2,7 @@
     <div>
         <h1>Home</h1>
         <hr class="my-3" />
-        <Loading v-if="loading" />
+        <C_Loading v-if="loading" />
         <section v-else>
             <nav class="tabs flex flex-wrap" ref="tabs">
                 <span data-name="tournaments" class="p-5 cursor-pointer dark:bg-slate-700 hover:bg-slate-200" :class="(tabList && tabList.tournaments.isActive ? 'bg-slate-200 dark:bg-slate-500' : 'bg-slate-300')" @click="toggleActive('tournaments')">Tournaments</span>
@@ -10,8 +10,8 @@
             </nav>
             <div class="flex flex-wrap dark:bg-slate-500 bg-slate-200">
                 <div class="w-1/2">
-                    <Tournament v-if="tabList && tabList.tournaments.isActive"></Tournament>
-                    <Series v-if="tabList && tabList.series.isActive"></Series>
+                    <C_Tournament v-if="tabList && tabList.tournaments.isActive"/>
+                    <C_Series v-if="tabList && tabList.series.isActive"/>
                 </div>
             </div>
         </section>
@@ -19,18 +19,18 @@
 </template>
 
 <script>
-import Loading from '../components/Loading.vue'
-import Tournament from '../components/Tournament.vue'
-import Series from '../components/Series.vue'
+import C_Loading from '../components/C_Loading.vue'
+import C_Tournament from '../components/C_Tournament.vue'
+import C_Series from '../components/C_Series.vue'
 
 export default {
     name: 'Home',
     auth: false,
-    components: [
-        Loading,
-        Tournament,
-        Series
-    ],
+    components: {
+        C_Loading,
+        C_Tournament,
+        C_Series
+    },
     data() {
         return {
             loading: false,

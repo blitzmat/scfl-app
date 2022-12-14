@@ -27,7 +27,7 @@
 </template>
 <script>
 export default {
-    name: 'Button',
+    name: 'C_Button',
     props: {
         label: String,
         primary: false,
@@ -46,7 +46,7 @@ export default {
                 'opacity-50 hover:bg-transparent': this.disabled && !this.primary,
                 'opacity-50 text-slate-200 bg-slate-700 dark:text-slate-800 dark:bg-slate-300 hover:bg-slate-700 hover:text-slate-200 dark:text-slate-800 dark:bg-slate-300': this.disabled && this.primary,
                 'py-2 px-4 border' : !this.flat,
-                'underline hover:no-underline bg-transparent hover:bg-transparent border-0 p-0 ' : this.flat,
+                'underline hover:no-underline border-0 p-0 bg-transparent hover:bg-transparent dark:text-slate-200 dark:bg-transparent dark:hover:bg-transparent ' : this.flat,
                 'border-transparent text-white bg-red-600 hover:bg-red-700': this.warning,
             }
         }

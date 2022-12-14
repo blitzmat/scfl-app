@@ -15,9 +15,9 @@
                         </h2>
                     </div>
                     <div v-if="requestSent" class="text-center">
-                        <Button label="Home" primary="true" link="true" url="/" />
+                        <C_Button label="Home" primary="true" link="true" url="/" />
                     </div>
-                    <Form v-else :form="form">
+                    <C_Form v-else :form="form">
                         <template slot="inputs">
                             <FormulateInput 
                                 v-model="form.email"
@@ -34,7 +34,7 @@
                             <p v-for="(error, index) in errors" :key="index" class="text-sm text-red-500 ml-2">{{error.msg}}</p>
                         </template>
                         <template slot="footer">
-                            <Button
+                            <C_Button
                                 type="submit"
                                 :disabled="loading"
                                 primary="true"
@@ -42,16 +42,23 @@
                                 label="Resquest password reset"
                             />
                         </template>
-                    </Form>
+                    </C_Form>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+import C_Button from '../../components/C_Button.vue'
+import C_Form from '../../components/C_Form.vue'
+
 export default {
-    name: 'forgot-password',
+    name: 'ForgotPassword',
     auth: false,
+    components: {
+        C_Button,
+        C_Form
+    },
     data: () => ({
         form: {
             finish: false

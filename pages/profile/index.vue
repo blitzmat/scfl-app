@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal
+        <C_Modal
             :show="state.delete"
             :loading="state.deleting"
             :disabled="state.deleting"
@@ -8,28 +8,28 @@
             message="Are you sure you want to DELETE your account? All of your data will be permanently removed. This action cannot be undone."
         >
             <template v-slot:footer>
-                <Button
+                <C_Button
                     @click="deleteUser(user._id)"
                     :loading="loading"
                     label="Delete"
                     class=""
                 />
-                <Button
+                <C_Button
                     @click="closeDelete"
                     warning="true"
                     label="Cancel"
                 />
             </template>
-        </Modal>
+        </C_Modal>
         <div class="container mx-auto">
             <div class="flex flex-row justify-between">
                 <div>
-                    <p class="text-sm text-gray-400">{{user.firstname}} {{user.lastname}}</p>
+                    <p class="text-sm">{{user.firstname}} {{user.lastname}}</p>
                     <h1 class="break-all leading-none mb-3">{{user.username}}</h1>
-                    <p class="text-sm text-gray-400" :class="!user.isVerified ? 'text-red-600' : ''">
+                    <p class="text-sm" :class="!user.isVerified ? 'text-red-600' : ''">
                         {{user.email}}
                         <template v-if="!user.isVerified"> - 
-                            <Button
+                            <C_Button
                                 @click="verifyEmail" 
                                 :disabled="state.verifying"
                                 :loading="state.verifying"
@@ -40,7 +40,7 @@
                     </p>
                 </div>
                 <div v-if="!state.isEditing">
-                    <Button
+                    <C_Button
                         @click="state.isEditing = true"
                         label="Edit Profile"
                         :loading="state.updating"
@@ -50,13 +50,13 @@
                         <svg slot="icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                         </svg>
-                    </Button>
+                    </C_Button>
                 </div>
             </div>
             
             <hr class="my-4">
             <template v-if="state.isEditing">
-                <Form :form="form">
+                <C_Form :form="form">
                     <template v-slot:inputs>
                         <FormulateInput
                             v-model="form.username"
@@ -98,7 +98,7 @@
                             label="Email Address"
                             class="my-2"          
                         />
-                        <Button
+                        <C_Button
                             @click="resetPassword"
                             label="Request a password reset"
                             class="my-4"
@@ -111,7 +111,7 @@
                     </template>
                     <template v-slot:footer>
                         <div class="flex flex-row gap-2">
-                            <Button
+                            <C_Button
                                 type="submit"
                                 :class="classes"
                                 class="basis-1/2 w-full"
@@ -120,7 +120,7 @@
                                 label="Update"
                                 primary="true"
                             />
-                            <Button
+                            <C_Button
                                 type="button"
                                 @click="state.isEditing = false"
                                 class="basis-1/2"
@@ -128,7 +128,7 @@
                             />
                         </div>
                         <div class="text-right mt-4 text-sm">
-                            <Button
+                            <C_Button
                                 @click="state.delete = true" 
                                 :disabled="state.deleting"
                                 :loading="state.deleting"
@@ -138,15 +138,15 @@
                             />
                         </div>
                     </template>
-                </Form>
-                <hr class="my-4"></hr>
+                </C_Form>
+                <hr class="my-4" />
             </template>
             <h3>Active tournaments</h3>
-            <div v-for="tournament in tournaments" :key="tournament.id" class="p-2 mb-5 bg-slate-200">
-                <nuxt-link :to="`/tournament/${tournament.slug}`">{{tournament.league.name}} - {{tournament.name}}</nuxt-link>
+            <div v-for="serie in series" :key="serie.id" class="p-2 mb-5 bg-slate-300 dark:bg-slate-700">
+                <nuxt-link :to="`/series/${serie.slug}`">{{serie.league.name}} - {{serie.name}}</nuxt-link>
                 <p><b>Your Team</b></p>
                 <ul>
-                    <li v-for="player in tournament.pickedPlayers" :key="player.id">
+                    <li v-for="player in serie.pickedPlayers" :key="player.id">
                         {{player.name}}
                     </li>
                 </ul>
@@ -156,12 +156,16 @@
 </template>
 
 <script>
-import Button from '../../components/Button.vue'
+import C_Button from '../../components/C_Button.vue'
+import C_Modal from '../../components/C_Modal.vue'
 
 export default {
-    name: 'users',
+    name: 'Profile',
     auth: true,
-    components: { Button },
+    components: { 
+        C_Button,
+        C_Modal
+    },
     data() {
         return {
             state: {
@@ -183,7 +187,7 @@ export default {
             form: {
                 finish: false,
             },
-            tournaments: []
+            series: []
         }
     },
     computed: {
@@ -211,16 +215,16 @@ export default {
         // }
     },
     async fetch() {
-        let allTournaments = await this.$store.dispatch('tournament/fetch')
-        this.user.tournaments.forEach(tournament => {
-            allTournaments.forEach(t => {
-                if (tournament.tournament_id == t.id) {
-                    t.pickedPlayers = tournament.players
-                    this.tournaments.push(t)
+        let allSeries = await this.$store.dispatch('serie/fetch')
+        this.user.series.forEach(serie => {
+            allSeries.forEach(t => {
+                if (serie.serie_id == t.id) {
+                    t.pickedPlayers = serie.players
+                    this.series.push(t)
                 }
             })
         });
-        console.log(this.tournaments)
+        console.log(this.series)
     },
     watch: {
         finish (newVal) {

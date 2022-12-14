@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Loading v-if="loading" />
+        <C_Loading v-if="loading" />
         <div v-else>
             <div class="flex flex-wrap">
                 <div class="w-1/2">
@@ -22,24 +22,24 @@
 
                     <div v-if="$auth.loggedIn">
                         <h5 class="border-b-2">Pick your team - {{playerLimit - playersPicked.length}} players left</h5>
-                        <Button v-if="joined" :warning="true" label="Cancel Tournament" @click="cancelTournament" class="my-3"></Button>
+                        <C_Button v-if="joined" :warning="true" label="Cancel Tournament" @click="cancelTournament" class="my-3"/>
                         
                         <ul class="mt-2">
                             <li v-for="player in tournament.rosters" :key="player.id" class="flex align-center justify-between my-2">
                                 <template v-if="playersPicked.find(el => el.id == player.id) ? true : false">
                                     <b>{{player.name}}</b>
                                     <span class="text-green-600">Picked!</span>
-                                    <Button v-if="!joined" :warning="true" label="Remove" @click="removePlayer(player)"></Button>
+                                    <C_Button v-if="!joined" :warning="true" label="Remove" @click="removePlayer(player)"/>
                                 </template>
                                 <template v-else>
                                     {{player.name}}
-                                    <Button v-if="!joined" :primary="true" label="Pick" @click="playersPicked.push(player)" :disabled="(playersPicked.length >= playerLimit)"></Button>
+                                    <C_Button v-if="!joined" :primary="true" label="Pick" @click="playersPicked.push(player)" :disabled="(playersPicked.length >= playerLimit)"/>
                                 </template>
                             </li>
                         </ul>
                         <Transition name="slide-y-transition">
                             <span v-if="(playersPicked.length == playerLimit && !joined)" class="fixed bottom-2 right-2">
-                                <Button :primary="true" label="Join Tournament" @click="joinTournament" :disabled="!$auth.loggedIn"></Button>
+                                <C_Button :primary="true" label="Join Tournament" @click="joinTournament" :disabled="!$auth.loggedIn"/>
                             </span>
                         </Transition>
                     </div>
@@ -52,16 +52,16 @@
     </div>
 </template>
 <script>
-    import Loading from '../../components/Loading.vue'
-    import Button from '../../components/Button.vue'
+    import C_Loading from '../../components/C_Loading.vue'
+    import C_Button from '../../components/C_Button.vue'
 
     export default {
-        name: 'Tournament',
+        name: 'TournamentDetail',
         auth: false,
-        components: [
-            Loading,
-            Button
-        ],
+        components: {
+            C_Loading,
+            C_Button
+        },
         data() {
             return {
                 loading: true,

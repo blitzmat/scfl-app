@@ -21,7 +21,7 @@
 
 <script>
 export default {
-    name: 'Notification',
+    name: 'C_Notification',
 
     data() {
         return {

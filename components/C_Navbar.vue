@@ -20,7 +20,7 @@
             <a href="#" @click="$auth.logout()" class="text-white mx-3 py-2 text-sm no-underline">Sign out</a>
           </div>
         </template>
-        <Dropdown label="Menu" :isIcon="true" class="md:hidden">
+        <C_Dropdown label="Menu" :isIcon="true" class="md:hidden">
           <template v-if="!$auth.loggedIn">
             <div class="py-1" role="none">
               <nuxt-link to="/login" class="text-gray-700 block px-4 py-2 text-sm no-underline hover:bg-sky-200" role="menuitem" tabindex="-1" id="menu-item-0">Login</nuxt-link>
@@ -35,19 +35,19 @@
               <a href="#" @click="$auth.logout()" class="text-gray-700 block w-full text-left px-4 py-2 text-sm no-underline hover:bg-sky-200" role="menuitem" tabindex="-1" id="menu-item-3">Sign out</a>
             </div>
           </template>
-        </Dropdown>
+        </C_Dropdown>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
-import Dropdown from '~/components/Dropdown'
+import C_Dropdown from './C_Dropdown.vue'
 
 export default {
-  name: 'Navbar',
+  name: 'C_Navbar',
   components: {
-    Dropdown,
+    C_Dropdown,
   },
   methods: {
     logout() {

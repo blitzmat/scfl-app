@@ -2,7 +2,7 @@
     <div class="container mx-auto flex flex-col items-center w-full h-full">
         <h1 class="mb-4">Reset your password</h1>
         <hr class="my-4 border-gray-200 dark:border-gray-700">
-        <Form :form="form" class="w-full sm:w-1/2">
+        <C_Form :form="form" class="w-full sm:w-1/2">
             <template slot="inputs">
                 <FormulateInput 
                     v-model="form.password"
@@ -46,14 +46,19 @@
                     </template>
                 </FormulateInput>
             </template>
-        </Form>
+        </C_Form>
     </div>
 </template>
 
 <script>
+import C_Form from '../../components/C_Form.vue'
+
 export default {
-    name: 'reset',
+    name: 'Reset',
     auth: false,
+    components: {
+        C_Form
+    },
     computed: {
         finish () {
             return this.form.finish

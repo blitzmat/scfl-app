@@ -15,7 +15,7 @@
                     Your verification code has expired
                 </h5>
                 <hr class="my-4 border-gray-200 dark:border-gray-700">
-                <Form :form="form" class="w-full sm:w-1/2">
+                <C_Form :form="form" class="w-full sm:w-1/2">
                     <template slot="inputs">
                         <FormulateInput 
                             v-model="form.email"
@@ -50,7 +50,7 @@
                             </template>
                         </FormulateInput>
                     </template>
-                </Form>
+                </C_Form>
             </template>
         </template>
         <template v-else>
@@ -63,9 +63,14 @@
 </template>
 
 <script>
+import C_Form from '../../components/C_Form.vue'
+
 export default {
-    name: 'verify',
+    name: 'Verify',
     auth: false,
+    components: {
+        C_Form
+    },
     computed: {
         finish () {
             return this.form.finish

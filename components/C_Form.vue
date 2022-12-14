@@ -12,7 +12,7 @@
 
 <script>
 export default {
-    name: 'Form',
+    name: 'C_Form',
     props: {
         form: {
             required: true,

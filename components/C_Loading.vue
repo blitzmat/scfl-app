@@ -9,7 +9,7 @@
 
 <script>
 export default {
-    name: 'Loading',
+    name: 'C_Loading',
     props: {
         background: false
     }
